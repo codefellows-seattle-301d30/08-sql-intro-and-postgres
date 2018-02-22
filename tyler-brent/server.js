@@ -13,7 +13,6 @@ const app = express();
 // Your OS may require that your conString is composed of additional information including user and password.
 // const conString = 'postgres://USER:PASSWORD@HOST:PORT/DBNAME';
 
-// Mac:
 const conString = 'postgres://localhost:5432/articles';
 
 const client = new pg.Client(conString);
@@ -27,11 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./public'));
 
-
 // REVIEW: Routes for requesting HTML resources
 app.get('/new', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #5 response. The get method is interacting with the server. Read.
   response.sendFile('new.html', {root: './public'});
 });
 
@@ -39,7 +37,7 @@ app.get('/new', (request, response) => {
 // REVIEW: Routes for making API calls to use CRUD Operations on our database
 app.get('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3 query. Still using get method to Read, but the server is querying the db to get the information to return with the response.
   client.query('')
     .then(function(result) {
       response.send(result.rows);
@@ -51,7 +49,7 @@ app.get('/articles', (request, response) => {
 
 app.post('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3 query. .insertRecord() from articles.js is Creating a new thing in the model.
   client.query(
     `INSERT INTO
     articles(title, author, "authorUrl", category, "publishedOn", body)
@@ -76,7 +74,7 @@ app.post('/articles', (request, response) => {
 
 app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3 query to use .updateRecord() from article.js to Update a thing in the model layer.
   client.query(
     ` `, []
   )
@@ -90,7 +88,7 @@ app.put('/articles/:id', (request, response) => {
 
 app.delete('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3 query is going to use .deleteRecord() method from article.js to Delete things from the model.
   client.query(
     `DELETE FROM articles WHERE article_id=$1;`,
     [request.params.id]
@@ -105,7 +103,7 @@ app.delete('/articles/:id', (request, response) => {
 
 app.delete('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3 query. .truncateTable() from article.js to Delete many things from the model.
   client.query(
     ''
   )
@@ -116,7 +114,7 @@ app.delete('/articles', (request, response) => {
       console.error(err);
     });
 });
-
+console.log('hello!');
 // COMMENT-DONE: What is this function invocation doing?
 // it is creating the database if it does not exist already. then it will check to see if there is anything in the database, if not it will fill it.
 loadDB();
@@ -130,7 +128,7 @@ app.listen(PORT, () => {
 ////////////////////////////////////////
 function loadArticles() {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3, 4. This is called in server.js in the loadDb method so no specific relation to the article.js. Read, then optionally create if there is no db
   client.query('SELECT COUNT(*) FROM articles')
     .then(result => {
     // REVIEW: result.rows is an array of objects that PostgreSQL returns as a response to a query.
@@ -154,7 +152,8 @@ function loadArticles() {
 
 function loadDB() {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // #3,4. It does not interact with article JS sepcifically, it is called in server.js. Read and optionally Create
+  console.log('this code is running');
   client.query(`
     CREATE TABLE IF NOT EXISTS articles (
       article_id SERIAL PRIMARY KEY,

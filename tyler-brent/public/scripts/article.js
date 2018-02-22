@@ -64,7 +64,7 @@ Article.prototype.insertRecord = function(callback) {
 
 Article.prototype.deleteRecord = function(callback) {
   $.ajax({
-    url: `/articles/${this.article_id}`, //TYLER - where does the article_id come from? Is it the serial?
+    url: `/articles/${this.article_id}`,
     method: 'DELETE'
   })
   .then(data => {
