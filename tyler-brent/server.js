@@ -3,6 +3,8 @@
 const fs = require('fs');
 const express = require('express');
 
+const pg = require('pg');
+
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -12,9 +14,9 @@ const app = express();
 // const conString = 'postgres://USER:PASSWORD@HOST:PORT/DBNAME';
 
 // Mac:
-// const conString = 'postgres://localhost:5432';
+const conString = 'postgres://localhost:5432/articles';
 
-const client = new pg.Client();
+const client = new pg.Client(conString);
 
 // REVIEW: Use the client object to connect to our DB.
 client.connect();
@@ -115,8 +117,8 @@ app.delete('/articles', (request, response) => {
     });
 });
 
-// COMMENT: What is this function invocation doing?
-// PUT YOUR RESPONSE HERE
+// COMMENT-DONE: What is this function invocation doing?
+// it is creating the database if it does not exist already. then it will check to see if there is anything in the database, if not it will fill it.
 loadDB();
 
 app.listen(PORT, () => {
