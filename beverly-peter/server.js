@@ -105,7 +105,7 @@ app.put('/articles/:id', (request, response) => {
 
 app.delete('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // The following code correspods to #3, #4, and #5 on the diagram. It is interacting with Article.prototype.deleteRecord(). This is the Delete part of CRUD. 
   client.query(
     `DELETE FROM articles WHERE article_id=$1;`,
     [request.params.id]
