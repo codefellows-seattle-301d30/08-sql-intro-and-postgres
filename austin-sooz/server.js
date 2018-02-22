@@ -78,7 +78,7 @@ app.put('/articles/:id', (request, response) => {
   // This begins as query (number 3 on the diagram) to the model. It updates an article row on the table in the database with new information. Though it is not currently invoked, it is related to updateRecord method in article.js. This is the update part of CRUD.
   client.query(
     `UPDATE articles SET (title, author, "authorUrl", category, "publishedOn", body)
-    VALUES ($1, $2, $3, $4, $5, $6) WHERE article_id=$7;`, 
+    VALUES ($1, $2, $3, $4, $5, $6) WHERE article_id=$7;`,
     [
       request.body.title,
       request.body.author,
@@ -140,7 +140,7 @@ app.listen(PORT, () => {
 function loadArticles() {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // Within the LoadDB function, this function is called to assist with numbers 3 and 4 from the full stack diagram. The model is queried to verify if a table exists then if the table doesn't have data appended to the rows, create the data from the json file. This only talk to the model and does not interact with any methods inside the view (article.js).
-  client.query('SELECT COUNT(*) FROM articles')
+  client.query('SELECT COUNT(*) FROM articles;')
     .then(result => {
     // REVIEW: result.rows is an array of objects that PostgreSQL returns as a response to a query.
     // If there is nothing on the table, then result.rows[0] will be undefined, which will make count undefined. parseInt(undefined) returns NaN. !NaN evaluates to true.
