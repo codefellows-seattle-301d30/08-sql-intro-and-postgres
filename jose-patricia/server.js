@@ -9,10 +9,11 @@ const app = express();
 
 // Windows and Linux users: You should have retained the user/password from the pre-work for this course.
 // Your OS may require that your conString is composed of additional information including user and password.
-const conString = 'postgres://POSTGRES:1234@HOST:PORT/ARTICLES';
+// const conString = 'postgres://POSTGRES:1234@HOST:PORT/ARTICLES';
 
 // Mac:
-// const conString = 'postgres://localhost:5432';
+const conString = 'postgres://localhost:5432/articles';
+const pg = require('pg');
 
 const client = new pg.Client(conString);
 
@@ -142,7 +143,7 @@ function loadArticles() {
               articles(title, author, "authorUrl", category, "publishedOn", body)
               VALUES ($1, $2, $3, $4, $5, $6);
             `,
-              [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body]
+            [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body]
             )
           })
         })
