@@ -1,9 +1,15 @@
 'use strict';
 
+//this Node.JS package allows us to write SQL commands in JavaScript
 const pg = require('pg');
+
+//this Node.JS package provides for file system interaction
 const fs = require('fs');
+
+//the client function exists in this package for Node.js to help us connect to the model from the controller.
 const express = require('express');
 
+//bodyParser package for Node.JS helps parses bodies of text to transfer between JSON strings in the model, the controller and eventually the view.
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -30,7 +36,7 @@ app.use(express.static('./public'));
 // REVIEW: Routes for requesting HTML resources
 app.get('/new', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // This method is related to part 2 and 5 of the full stack diagram. This provides the route for the content to respond to the view from the server and doesn't interact with any methods on article.js. This the read part of CRUD because it is reading the file from the controller and rendering the page in the view on the browse.
   response.sendFile('new.html', {root: './public'});
 });
 
@@ -38,8 +44,8 @@ app.get('/new', (request, response) => {
 // REVIEW: Routes for making API calls to use CRUD Operations on our database
 app.get('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
-  client.query('')
+  // This is working on 3 and 4 of the full stack diagram. This is interacting with the fetchAll method on articles.js. This is the read part of CRUD.
+  client.query('SELECT * FROM articles;')
     .then(function(result) {
       response.send(result.rows);
     })
@@ -50,7 +56,7 @@ app.get('/articles', (request, response) => {
 
 app.post('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // This is function is 3 on the full stack diagram. It is sending a query to create a new row in the table on the database to the model. It then sends a string to the controller (server.js) that the task is completed. This is interacting with the insertRecord method on the article.js. This is updating the table but it also creating a new record so both the "Create" and "Update" of CRUD.
   client.query(
     `INSERT INTO
     articles(title, author, "authorUrl", category, "publishedOn", body)
