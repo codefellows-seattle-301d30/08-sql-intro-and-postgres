@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const express = require('express');
+const pg = require('pg');
 
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
@@ -12,7 +13,7 @@ const app = express();
 // const conString = 'postgres://USER:PASSWORD@HOST:PORT/DBNAME';
 
 // Mac:
-const conString = 'postgres://localhost:5432';
+const conString = 'postgres://localhost:5432/postgres';
 
 const client = new pg.Client(conString);
 
@@ -39,7 +40,7 @@ app.get('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // The following code correspods to #3, #4, and #5 on the diagram. This is interacting with the Article.fetchAll method. The read/retrieving part of CRUD is being managed by this piece of code. 
   client.query(
-    `SELECT * FROM 
+    `SELECT * FROM articles;
     `
   )
     .then(function(result) {
@@ -51,8 +52,8 @@ app.get('/articles', (request, response) => {
 });
 
 app.post('/articles', (request, response) => {
-  // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following lines of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
+  // The following code correspods to #3, #4, and #5 on the diagram. It is interacting with Article.prototype.insertRecord(). This is the Create part of CRUD. 
   client.query(
     `INSERT INTO
     articles(title, author, "authorUrl", category, "publishedOn", body)
@@ -132,7 +133,7 @@ app.listen(PORT, () => {
 function loadArticles() {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // PUT YOUR RESPONSE HERE
-  client.query('SELECT COUNT(*) FROM articles')
+  client.query('SELECT COUNT(*) FROM articles;')
     .then(result => {
     // REVIEW: result.rows is an array of objects that PostgreSQL returns as a response to a query.
     // If there is nothing on the table, then result.rows[0] will be undefined, which will make count undefined. parseInt(undefined) returns NaN. !NaN evaluates to true.
