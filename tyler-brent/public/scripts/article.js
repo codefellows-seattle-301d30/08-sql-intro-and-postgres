@@ -5,6 +5,7 @@ function Article (rawDataObj) {
   We can also set properties on objects with bracket notation instead of dot notation, which we must do when we don't necessarily know what the property name will be and thus set it as a variable.
   Additionally, what "this" is changes depending on your context - inside a constructor function, like Article, "this" refers to the newly instantiated object. However, inside the anonymous function we're passing into forEach as an argument, "this" in 'use strict' mode will be undefined. As a result, we can pass our instantiated object "this" into forEach as a second argument to preserve context.
   There is a LOT of new behavior going on here! Review object bracket notation and Object.keys to try and grok what's going on here.*/
+  // don't fully get what this is doing...
   Object.keys(rawDataObj).forEach(key => {
     this[key] = rawDataObj[key];
   }, this);
@@ -32,7 +33,7 @@ Article.loadAll = rawData => {
 Article.fetchAll = callback => {
   $.get('/articles')
   .then(
-    function(results) {
+    function(results) {// TYLER - does 'results' in here act as the same paramenter as results in /articles?
       // REVIEW: Call loadAll, and pass in the results, then invoke the callback.
       Article.loadAll(results);
       callback();
@@ -42,7 +43,7 @@ Article.fetchAll = callback => {
 
 
 // REVIEW: Take a few minutes and review what each of these new methods do in relation to our server and DB
-Article.truncateTable = callback => {
+Article.truncateTable = callback => { //TYLER - does this delete all the values in a table?
   $.ajax({
     url: '/articles',
     method: 'DELETE',
@@ -63,7 +64,7 @@ Article.prototype.insertRecord = function(callback) {
 
 Article.prototype.deleteRecord = function(callback) {
   $.ajax({
-    url: `/articles/${this.article_id}`,
+    url: `/articles/${this.article_id}`, //TYLER - where does the article_id come from? Is it the serial?
     method: 'DELETE'
   })
   .then(data => {
