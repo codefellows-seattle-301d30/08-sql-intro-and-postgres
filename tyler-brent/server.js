@@ -38,7 +38,7 @@ app.get('/new', (request, response) => {
 app.get('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // #3 query. Still using get method to Read, but the server is querying the db to get the information to return with the response.
-  client.query('')
+  client.query('SELECT * FROM articles;')
     .then(function(result) {
       response.send(result.rows);
     })
@@ -76,7 +76,18 @@ app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // #3 query to use .updateRecord() from article.js to Update a thing in the model layer.
   client.query(
-    ` `, []
+    `UPDATE articles
+    SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6
+    WHERE article_id=$7;
+    `, [
+      request.body.title,
+      request.body.author,
+      request.body.authorUrl,
+      request.body.category,
+      request.body.publishedOn,
+      request.body.body,
+      request.params.id
+    ]
   )
     .then(() => {
       response.send('update complete')
@@ -105,7 +116,7 @@ app.delete('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // #3 query. .truncateTable() from article.js to Delete many things from the model.
   client.query(
-    ''
+    'DELETE FROM articles;'
   )
     .then(() => {
       response.send('Delete complete')
@@ -114,7 +125,7 @@ app.delete('/articles', (request, response) => {
       console.error(err);
     });
 });
-console.log('hello!');
+// console.log('hello!');
 // COMMENT-DONE: What is this function invocation doing?
 // it is creating the database if it does not exist already. then it will check to see if there is anything in the database, if not it will fill it.
 loadDB();
@@ -142,7 +153,7 @@ function loadArticles() {
               articles(title, author, "authorUrl", category, "publishedOn", body)
               VALUES ($1, $2, $3, $4, $5, $6);
             `,
-              [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body]
+            [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body]
             )
           })
         })
