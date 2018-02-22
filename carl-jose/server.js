@@ -78,7 +78,20 @@ app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // The request is #2 the query is #3 and the response is #5. There is no result being sent back from the model. CRUD UPDATE
   client.query(
-    `UPDATE articles WHERE article_id=$1;`, [request.params.id]
+    `UPDATE articles 
+    SET (title, author, "authorUrl", category, "publishedOn", body) 
+    VALUES ($1, $2, $3, $4, $5, $6)
+    WHERE article_id=$7;
+    `,
+    [
+      request.body.title,
+      request.body.author,
+      request.body.authorUrl,
+      request.body.category,
+      request.body.publishedOn,
+      request.body.body,
+      request.params.id
+    ]
   )
     .then(() => {
       response.send('update complete')
@@ -144,7 +157,7 @@ function loadArticles() {
               articles(title, author, "authorUrl", category, "publishedOn", body)
               VALUES ($1, $2, $3, $4, $5, $6);
             `,
-              [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body]
+            [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body]
             )
           })
         })
