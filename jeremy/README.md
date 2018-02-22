@@ -1,22 +1,26 @@
-# Project Name
+# Lab 08 SQL Intro and Postgres
 
-**Author**: Your Name Goes Here
-**Version**: 1.0.0 (increment the patch/fix version number up if you make more commits past your first submission)
+**Author**: Jeremy Crawford
+**Version**: 1.0.0 
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for a Code Fellows 301 class. (i.e. What's your problem domain?) -->
+This is a blog site that allows the user to search for blogs based on author or category, as well as create new blogs, populate the model wtih this new data, and render newly-created blogs to the view.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+To get started, the developer should have postgre installed on their machine, as well as NodeJS. SHould also have working knowledge of how MVC works.
 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+Languages used: JavaScript, HTML, JS, SQL commands
+Libraries needed: Node.JS with Express, PG, body-parser
 
 ## Change Log
-<!-- Use this are to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
-
-01-01-2001 4:59pm - Application now has a fully-functional express server, with GET and POST routes for the book resource.
+02-22-2018 0900am - Still waiting on bus
+02-22-2018 1000am - Copy of main repository forked to individual github, cloned to local drive.
+02-22-2018 1100am - SQL server linked to server.js file
+02-22-2018 1130am - Files populating in homepage from model.
+02-22-2018 1230pm - site fully functional (i think)
+02-22-2018 0100pm - README complete, PR submitted.
 
 ## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+Thanks to Allie for letting me tackle this one on my own, feel much more comfortable with the material.
 -->
