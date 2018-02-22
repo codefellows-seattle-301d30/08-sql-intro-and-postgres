@@ -80,7 +80,25 @@ app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // PUT YOUR RESPONSE HERE
   client.query(
-    `UPDATE articles`, []
+    `UPDATE articles 
+    SET 
+    title=$2,
+    author=$3,
+    authorUrl=$4,
+    category=$5,
+    publishedOn=$6,
+    body=$7
+    WHERE article_id=$1;
+    `,
+    [
+      request.params.id,
+      request.body.title,
+      request.body.author,
+      request.body.authorUrl,
+      request.body.category,
+      request.body.publishedOn,
+      request.body.body
+    ]
   )
     .then(() => {
       response.send('update complete')
@@ -109,7 +127,7 @@ app.delete('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // PUT YOUR RESPONSE HERE
   client.query(
-    ''
+    'DROP TABLE articles;'
   )
     .then(() => {
       response.send('Delete complete')
