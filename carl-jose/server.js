@@ -79,8 +79,7 @@ app.put('/articles/:id', (request, response) => {
   // The request is #2 the query is #3 and the response is #5. There is no result being sent back from the model. CRUD UPDATE
   client.query(
     `UPDATE articles 
-    SET (title, author, "authorUrl", category, "publishedOn", body) 
-    VALUES ($1, $2, $3, $4, $5, $6)
+    SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6)
     WHERE article_id=$7;
     `,
     [
