@@ -81,7 +81,8 @@ app.put('/articles/:id', (request, response) => {
       request.body.authorUrl,
       request.body.category,
       request.body.publishedOn,
-      request.body.body
+      request.body.body,
+      request.params.id
     ]
   )
     .then(() => {
