@@ -83,8 +83,7 @@ app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // This begins as query (number 3 on the diagram) to the model. It updates an article row on the table in the database with new information. Though it is not currently invoked, it is related to updateRecord method in article.js. This is the update part of CRUD.
   client.query(
-    `UPDATE articles SET (title, author, "authorUrl", category, "publishedOn", body)
-    VALUES ($1, $2, $3, $4, $5, $6) WHERE article_id=$7;`,
+    `UPDATE articles SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6 WHERE article_id=$7;`,
     [
       request.body.title,
       request.body.author,
