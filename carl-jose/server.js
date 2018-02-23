@@ -79,7 +79,7 @@ app.put('/articles/:id', (request, response) => {
   // The request is #2 the query is #3 and the response is #5. There is no result being sent back from the model. CRUD UPDATE
   client.query(
     `UPDATE articles 
-    SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6)
+    SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6
     WHERE article_id=$7;
     `,
     [
@@ -99,6 +99,7 @@ app.put('/articles/:id', (request, response) => {
       console.error(err);
     });
 });
+
 
 app.delete('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
