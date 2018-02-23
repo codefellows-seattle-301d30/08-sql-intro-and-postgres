@@ -13,7 +13,7 @@ const app = express();
 // const conString = 'postgres://USER:PASSWORD@HOST:PORT/DBNAME';
 
 // Mac:
-const conString = 'postgres://localhost:5432/articles';
+const conString = 'postgres://localhost:5432';
 
 const client = new pg.Client(conString);
 
@@ -30,7 +30,7 @@ app.use(express.static('./public'));
 // REVIEW: Routes for requesting HTML resources
 app.get('/new', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // Number 5 on the full-stack-diagram, corresponds to the response from the controller to the view. The method of article.js interacting with this is Article.prototype.insertRecord, which allows users to create a new record from the /new page. The part of CRUD enacted by this is 'Read' because it is showing a file to the user.
+  // Number 5 on the full-stack-diagram, corresponds to the response from the controller to the view. The method of article.js interacting with this is none in particular. The part of CRUD enacted by this is 'Read/Retrieve' because it is showing a file to the user.
   response.sendFile('new.html', {root: './public'});
 });
 
@@ -38,10 +38,10 @@ app.get('/new', (request, response) => {
 // REVIEW: Routes for making API calls to use CRUD Operations on our database
 app.get('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // Numbers 4 and 5 on the full-stack-diagram, corresponds to the response from the model to the controller to the view. The method of article.js interacting with this is Article.fetchAll, since it is the method that populates the /articles page. The part of CRUD enacted by this is 'Read' because it is showing articles to the user.
-  client.query('SELECT * FROM articles')
-    .then(function(result) {
-      response.send(result.rows);
+  // Number 3 on the full-stack diagram. The method of article.js interacting with this is Article.fetchAll, since it is the method that populates the /articles page. The part of CRUD enacted by this is 'Read/Retrieve' because it is showing articles to the user.
+  client.query('SELECT * FROM articles;')
+    .then(function(result) { //model to controller
+      response.send(result.rows); //controller to view
     })
     .catch(function(err) {
       console.error(err);
@@ -50,12 +50,10 @@ app.get('/articles', (request, response) => {
 
 app.post('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // Numbers 2 and 3 in the full-stack diagram because this is posting new information from the view to the controller to the model. Method from article.js interacting with this is article.prototype.insertRecord because it is creating a new object to add to the existing table. The part of CRUD being enacted is Create because it is creating a new object.
+  // Numbers 3 in the full-stack diagram because this is posting new information from the view to the controller to the model. Method from article.js interacting with this is article.prototype.insertRecord because it is creating a new object to add to the existing table. The part of CRUD being enacted is Create because it is creating a new object.
   client.query(
-    `INSERT INTO
-    articles(title, author, "authorUrl", category, "publishedOn", body)
-    VALUES ($1, $2, $3, $4, $5, $6);
-    `,
+    `INSERT INTO articles(title, author, "authorUrl", category, "publishedOn", body)
+    VALUES ($1, $2, $3, $4, $5, $6);`,
     [
       request.body.title,
       request.body.author,
@@ -75,16 +73,18 @@ app.post('/articles', (request, response) => {
 
 app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // Numbers 2 and 3 in the full-stack diagram because this is posting new information from the view to the controller to the model. Method from article.js interacting with this is article.prototype.updateRecord because it is updating an existing object in the table. The part of CRUD being enacted is Update because it is updating an existing object.
+  // Numbers 3 in the full-stack diagram because this is posting new information from the controller to the model. Method from article.js interacting with this is article.prototype.updateRecord because it is updating an existing object in the table. The part of CRUD being enacted is Update because it is updating an existing object.
   client.query(
-    `UPDATE articles (title, author, "authorUrl", category, "publishedOn", body) VALUES($2, $3, $4, $5, $6, $7) WHERE id = $1`,
-    [ request.params.id,
+    `UPDATE articles SET title = $1, author = $2, "authorUrl" = $3, category = $4, "publishedOn" = $5, body = $6) WHERE article_id = $7;`,
+    [ 
       request.body.title,
       request.body.author,
       request.body.authorUrl,
       request.body.category,
       request.body.publishedOn,
-      request.body.body]
+      request.body.body,
+      request.params.id
+    ]
   )
     .then(() => {
       response.send('update complete');
@@ -98,7 +98,7 @@ app.delete('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // Numbers 2 and 3 in the full-stack diagram because this is deleting existing information from the view to the controller to the model. Method from article.js interacting with this is article.prototype.deleteRecord because it is deleting an existing object in the table. The part of CRUD being enacted is Delete because it is deleting an existing object.
   client.query(
-    `DELETE FROM articles WHERE id=$1;`,
+    `DELETE FROM articles WHERE article_id = $1;`,
     [request.params.id]
   )
     .then(() => {
@@ -113,7 +113,7 @@ app.delete('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // PNumbers 2 and 3 in the full-stack diagram because this is deleting existing information from the view to the controller to the model. Method from article.js interacting with this is article.prototype.deleteRecord because it is deleting the table. The part of CRUD being enacted is Delete because it is deleting an existing object.
   client.query(
-    'DROP TABLE articles'
+    'DELETE FROM articles;'
   )
     .then(() => {
       response.send('Delete complete');
@@ -137,7 +137,7 @@ app.listen(PORT, () => {
 function loadArticles() {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // Number 3 in the full-stack diagram because this is loading data from controller to the model. Method from article.js interacting with this is article.prototype.insertRecord because it is inserting a new record in the table. The part of CRUD being enacted is Create because it is creating new records.
-  client.query('SELECT COUNT(*) FROM articles')
+  client.query('SELECT COUNT(*) FROM articles;')
     .then(result => {
     // REVIEW: result.rows is an array of objects that PostgreSQL returns as a response to a query.
     // If there is nothing on the table, then result.rows[0] will be undefined, which will make count undefined. parseInt(undefined) returns NaN. !NaN evaluates to true.
