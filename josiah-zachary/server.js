@@ -66,7 +66,8 @@ app.post('/articles', (request, response) => {
       request.body.authorUrl,
       request.body.category,
       request.body.publishedOn,
-      request.body.body
+      request.body.body,
+      request.params.id
     ]
   )
     .then(function() {
@@ -79,7 +80,7 @@ app.post('/articles', (request, response) => {
 
 app.put('/articles/:id', (request, response) => {
   // DONE: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  //   3, 4 and 5.  Article.prototype.updateRecord is the method being used.  UPDATE part of CRUD.
+  //   3.  Article.prototype.updateRecord is the method being used.  UPDATE part of CRUD.
   client.query(
     `UPDATE FROM articles WHERE article_id=$1;`,
     [request.params.id]
@@ -94,7 +95,7 @@ app.put('/articles/:id', (request, response) => {
 
 app.delete('/articles/:id', (request, response) => {
   // DONE: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  //  3, 4 and 5.  Article.prototype.deleteRecord is the method being used. DELETE part of CRUD process.
+  //  3.  Article.prototype.deleteRecord is the method being used. DELETE part of CRUD process.
   client.query(
     `DELETE FROM articles WHERE article_id=$1;`,
     [request.params.id]
@@ -109,9 +110,9 @@ app.delete('/articles/:id', (request, response) => {
 
 app.delete('/articles', (request, response) => {
   // DONE: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  //  3, 4 and 5.  Article.prototype.truncateTable is the method being used. DELETE part of CRUD process.
+  //  3.  Article.prototype.truncateTable is the method being used. DELETE part of CRUD process.
   client.query(
-    'DELETE TABLE articles;'
+    'DELETE FROM articles;'
   )
     .then(() => {
       response.send('Delete complete')
