@@ -1,0 +1,17 @@
+{
+  "name": "301d30-day-8",
+  "version": "1.0.0",
+  "description": "Code for day 8 lab",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jeremy",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "pg": "^7.4.1"
+  }
+}
