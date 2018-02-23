@@ -52,10 +52,7 @@ app.post('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // The numbers that correspond to the diagram are 2-5 and CREATE for CRUD. The method used is .insertRecord to correspond to the article.js file.
   client.query(
-    `INSERT INTO
-    articles(title, author, "authorUrl", category, "publishedOn", body)
-    VALUES ($1, $2, $3, $4, $5, $6);
-    `,
+    `INSERT INTO articles(title, author, "authorUrl", category, "publishedOn", body) VALUES($1, $2, $3, $4, $5, $6);`,
     [
       request.body.title,
       request.body.author,
@@ -77,9 +74,7 @@ app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // The .put method corresponds to Update within CRUD and using .updateRecord in article.js file. Numbers 2-5 of the full-stack model.
   client.query(
-    `UPDATE articles
-    SET
-    title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6 WHERE article_id=$7;`, []
+    `UPDATE articles SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6 WHERE article_id=$7;`, []
   )
     .then(() => {
       response.send('update complete')
