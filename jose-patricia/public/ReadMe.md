@@ -1,7 +1,7 @@
 # SQL and PostgreSQL
 
 **Author**: Jose Flores and Patricia Raftery
-**Version**: 1.0.0 
+**Version**: 1.0.4
 
 ## Overview
 
@@ -24,6 +24,7 @@ This application works by using Javascript, Markdown, Css, Html, JSON, jQuery, H
 02-22-2018 1100 - Created database and table
 02-22-2018 1130 - All blog articles appear in database, updated articles, deleted content, then dropped the table
 02-22-2018 1200 - Updated README
+02-23-2018 1400 - bug fixes
 
 ## Credits and Collaborations
 
