@@ -74,7 +74,15 @@ app.put('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // The .put method corresponds to Update within CRUD and using .updateRecord in article.js file. Numbers 2-5 of the full-stack model.
   client.query(
-    `UPDATE articles SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6 WHERE article_id=$7;`, []
+    `UPDATE articles SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6 WHERE article_id=$7;`,
+    [
+      request.body.title,
+      request.body.author,
+      request.body.authorUrl,
+      request.body.category,
+      request.body.publishedOn,
+      request.body.body
+    ]
   )
     .then(() => {
       response.send('update complete')
@@ -97,7 +105,7 @@ app.delete('/articles/:id', (request, response) => {
     .catch(err => {
       console.error(err);
     });
-});
+}); 
 
 app.delete('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
