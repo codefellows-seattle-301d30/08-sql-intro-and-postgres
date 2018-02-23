@@ -40,7 +40,6 @@ Article.fetchAll = callback => {
     );
 };
 
-
 // REVIEW: Take a few minutes and review what each of these new methods do in relation to our server and DB
 Article.truncateTable = callback => {
   $.ajax({
@@ -58,11 +57,11 @@ Article.prototype.insertRecord = function(callback) {
     .then(data => {
       console.log(data);
       if (callback) callback();
-    })
+    });
 };
 
 Article.prototype.deleteRecord = function(callback) {
-  $.ajax({
+  $.ajax({ //used because there is no $.put
     url: `/articles/${this.article_id}`,
     method: 'DELETE'
   })
@@ -73,16 +72,16 @@ Article.prototype.deleteRecord = function(callback) {
 };
 
 Article.prototype.updateRecord = function(callback) {
-  $.ajax({
+  $.ajax({ //used because there is no $.put
     url: `/articles/${this.article_id}`,
     method: 'PUT',
     data: {
+      title: this.title,
       author: this.author,
       authorUrl: this.authorUrl,
       body: this.body,
       category: this.category,
-      publishedOn: this.publishedOn,
-      title: this.title
+      publishedOn: this.publishedOn
     }
   })
     .then(data => {
