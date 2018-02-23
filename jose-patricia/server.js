@@ -52,10 +52,7 @@ app.post('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to the following line of code? Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // The numbers that correspond to the diagram are 2-5 and CREATE for CRUD. The method used is .insertRecord to correspond to the article.js file.
   client.query(
-    `INSERT INTO
-    articles(title, author, "authorUrl", category, "publishedOn", body)
-    VALUES ($1, $2, $3, $4, $5, $6);
-    `,
+    `INSERT INTO articles(title, author, "authorUrl", category, "publishedOn", body) VALUES($1, $2, $3, $4, $5, $6);`,
     [
       request.body.title,
       request.body.author,
